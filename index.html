@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0d0d0d;
+        color: #00ffea;
+        padding: 40px;
+        text-align: center;
+        font-family: "Tiny5", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      h2 {
+        font-size: 2em;
+        color: #ff00ff;
+        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+        margin-bottom: 30px;
+      }
+
+      input[type="text"] {
+        display: block;
+        margin: 10px auto 50px;
+        background-color: #1a1a1a;
+        color: #00ffea;
+        border: 2px solid #00ffea;
+        font-size: 1.5em;
+        padding: 10px 20px;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 0 10px #00ffea;
+        border-radius: 5px;
+        outline: none;
+      }
+       input::selection {
+        background: #00ffea;
+        color: black;
+      }
+
+      button {
+        font-family: inherit;
+        margin: 0 auto;
+        padding: 10px 25px;
+        font-size: 1.2em;
+        background-color: transparent;
+        border: 2px solid #ff00ff;
+        color: #ff00ff;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #ff00ff;
+        transition: all 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #ff00ff;
+        color: #0d0d0d;
+        box-shadow: 0 0 20px #ff00ff;
+      }
+
+
+    </style>
+
+  </head>
+  <body>
+    <h2>Cipher Genesis Core</h2>
+    <input type="text" id="passwordBox" readonly onclick="this.select();">
+    <button onclick="generate()">Initialize Sequence</button>
+
+    <script>
+      let typingInterval;
+
+      function generate() {
+        clearInterval(typingInterval); // 以前のアニメーション停止
+        const box = document.getElementById('passwordBox');
+        box.value = "";
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz23456789';
+        const symbols = '~^-+@$?#!';
+        let password = '';
+
+        // 英字10文字追加
+        for (let i = 0; i < 10; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        // 記号2文字追加
+        for (let i = 0; i < 2; i++) {
+          password += symbols.charAt(Math.floor(Math.random() * symbols.length));
+        }
+
+        // シャッフル
+        password = password.split('').sort(() => 0.5 - Math.random()).join('');
+        navigator.clipboard.writeText(password);
+
+        let index = 0;
+
+        typingInterval = setInterval(() => {
+          if (index < password.length) {
+            box.value += password[index];
+            index++;
+          } else {
+            clearInterval(typingInterval); // 終了
+          }
+        }, 40); // 表示間隔調整可能
+      }
+    </script>
+
+  </body>
+</html>
