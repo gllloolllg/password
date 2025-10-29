@@ -82,13 +82,16 @@
         box.value = "";
 
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz23456789';
-        const symbols = '~^-+@$?#!';
+        const symbols = '~^-+$?#!';
         let password = '';
+        const alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        password += alphabets.charAt(Math.floor(Math.random() * alphabets.length));
 
         // 英字10文字追加
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 9; i++) {
           password += chars.charAt(Math.floor(Math.random() * chars.length));
         }
+        
 
         // 記号2文字追加
         for (let i = 0; i < 2; i++) {
@@ -96,7 +99,9 @@
         }
 
         // シャッフル
-        password = password.split('').sort(() => 0.5 - Math.random()).join('');
+        const first = password[0];
+        const rest = password.slice(1).split('').sort(() => 0.5 - Math.random()).join('');
+        password = first + rest;
         navigator.clipboard.writeText(password);
 
         let index = 0;
@@ -114,4 +119,5 @@
 
   </body>
 </html>
+
 
